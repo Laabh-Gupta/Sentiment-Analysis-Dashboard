@@ -16,7 +16,7 @@ const SentimentForm = ({ fetchSentiments }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="Sentiment-form">
       <input
         type="text"
         value={text}
@@ -41,17 +41,31 @@ const SentimentList = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/sentiments/${id}`);
+      fetchSentiments(); // Fetch updated list of sentiments after deletion
+    } catch (error) {
+      console.error('Error deleting sentiment:', error);
+    }
+  };
+
   useEffect(() => {
     fetchSentiments();
   }, []);
 
   return (
-    <div>
+    <div className="Sentiment-list">
       <SentimentForm fetchSentiments={fetchSentiments} />
       <ul>
         {sentiments.map((sentiment) => (
-          <li key={sentiment._id}>
-            {sentiment.text} - {sentiment.sentiment} ({sentiment.score})
+          <li key={sentiment._id} className="Sentiment-item">
+            <div>
+              <p><strong>Text:</strong> {sentiment.text}</p>
+              <p><strong>Sentiment:</strong> {sentiment.sentiment}</p>
+              <p><strong>Score:</strong> {sentiment.score}</p>
+            </div>
+            <button className="Delete-button" onClick={() => handleDelete(sentiment._id)}>Delete</button>
           </li>
         ))}
       </ul>

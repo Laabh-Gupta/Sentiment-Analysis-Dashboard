@@ -3,7 +3,7 @@ const router = express.Router();
 const Sentiment = require('../models/Sentiment');
 const { spawn } = require('child_process');
 
-const pythonPath = 'C:\\Users\\Reach\\AppData\\Local\\Programs\\Python\\Python312\\python.exe';
+const pythonPath = 'C:\\Program Files\\Python311\\python.exe';
 
 router.post('/analyze', async (req, res) => {
   const { text } = req.body;
